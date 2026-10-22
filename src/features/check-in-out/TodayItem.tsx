@@ -26,27 +26,43 @@ const Guest = styled.div`
 `
 
 export default function TodayItem({
-  activity: { id, status, guests, numNights },
+  activity: {
+    id,
+    status,
+    numNights,
+    guestName,
+    guestCountryFlag,
+    guestNationality,
+  },
+}: {
+  activity: {
+    id: number
+    status: string
+    numNights: number
+    guestName: string | null
+    guestCountryFlag: string | null
+    guestNationality: string | null
+  }
 }) {
   const { t } = useTranslation()
 
   return (
     <StyledTodayItem>
-      {status === 'unconfirmed' && (
+      {status === 'confirmed' && (
         <Tag $type='green'>{t('todayItem.arriving')}</Tag>
       )}
-      {status === 'checked-in' && (
+      {status === 'checked_in' && (
         <Tag $type='blue'>{t('todayItem.departing')}</Tag>
       )}
 
       <Flag
-        src={guests.countryFlag}
-        alt={t('todayItem.flagOf', { country: guests.country })}
+        src={guestCountryFlag}
+        alt={t('todayItem.flagOf', { country: guestNationality })}
       />
-      <Guest>{guests.fullName}</Guest>
+      <Guest>{guestName}</Guest>
       <div>{t('todayItem.nights', { count: numNights })}</div>
 
-      {status === 'unconfirmed' && (
+      {status === 'confirmed' && (
         <Button
           $size='small'
           $variation='primary'
@@ -56,7 +72,7 @@ export default function TodayItem({
           {t('todayItem.checkIn')}
         </Button>
       )}
-      {status === 'checked-in' && <CheckoutButton bookingId={id} />}
+      {status === 'checked_in' && <CheckoutButton bookingId={id} />}
     </StyledTodayItem>
   )
 }

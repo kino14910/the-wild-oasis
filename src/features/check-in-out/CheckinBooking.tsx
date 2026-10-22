@@ -49,19 +49,9 @@ function CheckinBooking() {
   function handleCheckin() {
     if (!confirmPaid) return
 
-    if (!addBreakfast) {
-      checkIn({ bookingId, breakfast: {} })
-      return
-    }
-
-    checkIn({
-      bookingId,
-      breakfast: {
-        hasBreakfast: true,
-        extrasPrice: optionalBreakfastPrice,
-        totalPrice: totalPrice + optionalBreakfastPrice,
-      },
-    })
+    // The breakfast price is recalculated server-side when the booking is
+    // updated, so only the flag is sent here.
+    checkIn({ bookingId, breakfast: { hasBreakfast: addBreakfast } })
   }
 
   return (

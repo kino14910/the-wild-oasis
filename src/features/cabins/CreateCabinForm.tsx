@@ -49,12 +49,20 @@ function CreateCabinForm({
   const { isEditing, editCabin } = useEditCabin()
   const isWorking = isCreating || isEditing
 
-  const onSubmit = data => {
+  const onSubmit = (data: Record<string, any>) => {
     const image = typeof data.image === 'string' ? data.image : data.image[0]
+    const payload = {
+      name: String(data.name),
+      maxCapacity: Number(data.maxCapacity),
+      regularPrice: Number(data.regularPrice),
+      discount: Number(data.discount ?? 0),
+      description: String(data.description),
+      image,
+    }
 
     if (isEditSession)
       editCabin(
-        { newCabinData: { ...data, image }, id: editId },
+        { newCabinData: payload, id: Number(editId) },
         {
           onSuccess: () => {
             reset()
@@ -64,7 +72,7 @@ function CreateCabinForm({
       )
     else
       createCabin(
-        { ...data, image: data.image[0] },
+        { ...payload, image: data.image[0] },
         {
           onSuccess: () => {
             reset()

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
-import { updateBooking } from '../../services/apiBookings'
+import { api } from '../../services/api'
 
 export function useCheckout() {
   const queryClient = useQueryClient()
@@ -9,9 +9,7 @@ export function useCheckout() {
 
   const { mutate: checkout, isPending: isCheckingOut } = useMutation({
     mutationFn: (bookingId: number) =>
-      updateBooking(bookingId, {
-        status: 'checked-out',
-      }),
+      api.updateBookingStatus(bookingId, 'check_out'),
 
     onSuccess: data => {
       toast.success(t('hooks.checkout.success', { id: data.id }))

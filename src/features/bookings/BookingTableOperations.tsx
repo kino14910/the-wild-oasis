@@ -12,9 +12,11 @@ function BookingTableOperations() {
         filterField="status"
         options={[
           { value: "all", label: t('bookingTableOperations.all') },
-          { value: "checked-out", label: t('bookingTableOperations.checkedOut') },
-          { value: "checked-in", label: t('bookingTableOperations.checkedIn') },
-          { value: "unconfirmed", label: t('bookingTableOperations.unconfirmed') },
+          { value: "pending", label: t('bookingTableOperations.pending') },
+          { value: "confirmed", label: t('bookingTableOperations.confirmed') },
+          { value: "checked_in", label: t('bookingTableOperations.checkedIn') },
+          { value: "checked_out", label: t('bookingTableOperations.checkedOut') },
+          { value: "cancelled", label: t('bookingTableOperations.cancelled') },
         ]}
       />
 

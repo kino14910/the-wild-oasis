@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Button from '../../ui/Button'
-import FileInput from '../../ui/FileInput'
 import Form from '../../ui/Form'
 import FormRow from '../../ui/FormRow'
 import Input from '../../ui/Input'
@@ -22,26 +21,23 @@ function UpdateUserDataForm() {
   const { updateUser, isUpdating } = useUpdateUser()
   const { t } = useTranslation()
 
-  const [fullName, setFullName] = useState(currentFullName)
-  const [avatar, setAvatar] = useState(null)
+  const [fullName, setFullName] = useState(currentFullName ?? '')
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!fullName) return
     updateUser(
-      { fullName, avatar },
+      { fullName },
       {
         onSuccess: () => {
-          setAvatar(null)
-          e.target.reset()
+          setFullName(fullName)
         },
       },
     )
   }
 
   function handleCancel() {
-    setFullName(currentFullName)
-    setAvatar(null)
+    setFullName(currentFullName ?? '')
   }
 
   return (
@@ -60,25 +56,20 @@ function UpdateUserDataForm() {
         />
       </FormRow>
 
-      <FormRow label={t('updateUserDataForm.avatarImage')}>
-        <FileInput
-          id='avatar'
-          accept='image/*'
-          onChange={e => setAvatar(e.target.files[0])}
-          disabled={isUpdating}
-        />
-      </FormRow>
-
       <FormRow>
-        <Button
-          type='reset'
-          variation='secondary'
-          disabled={isUpdating}
-          onClick={handleCancel}
-        >
-          {t('updateUserDataForm.cancel')}
-        </Button>
-        <Button disabled={isUpdating}>{t('updateUserDataForm.updateAccount')}</Button>
+        <>
+          <Button
+            type='reset'
+            $variation='secondary'
+            disabled={isUpdating}
+            onClick={handleCancel}
+          >
+            {t('updateUserDataForm.cancel')}
+          </Button>
+          <Button disabled={isUpdating}>
+            {t('updateUserDataForm.updateAccount')}
+          </Button>
+        </>
       </FormRow>
     </Form>
   )

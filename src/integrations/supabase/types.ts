@@ -39,6 +39,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      profiles: {
+        Row: {
+          id: string
+          full_name: string
+          email: string
+          role: "guest" | "admin"
+          nationality: string | null
+          country_flag: string | null
+          national_id: string | null
+          avatar_url: string | null
+          created_at: string
+        }
+        Insert: {
+          id: string
+          full_name: string
+          email: string
+          role?: "guest" | "admin"
+          nationality?: string | null
+          country_flag?: string | null
+          national_id?: string | null
+          avatar_url?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string
+          email?: string
+          role?: "guest" | "admin"
+          nationality?: string | null
+          country_flag?: string | null
+          national_id?: string | null
+          avatar_url?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           cabinId: number | null

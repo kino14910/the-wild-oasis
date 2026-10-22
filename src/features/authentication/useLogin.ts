@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
-import { login as loginApi } from '../../services/apiAuth'
+import { getCurrentUser, login as loginApi } from '../../services/apiAuth'
 
 export function useLogin() {
   const navigate = useNavigate()
@@ -9,11 +9,15 @@ export function useLogin() {
   const { mutate: login, isPending } = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       loginApi({ email, password }),
-    // onSuccess: user => {
-    //   console.log(user)
-    onSuccess: data => {
+    onSuccess: async () => {
+      // The auth session only carries the Supabase user; the application
+      // profile (and with it the role) has to be loaded separately. Fetching it
+      // before the redirect prevents the guard from seeing an incomplete user.
+      await queryClient.fetchQuery({
+        queryKey: ['user'],
+        queryFn: getCurrentUser,
+      })
       navigate('/dashboard', { replace: true })
-      queryClient.setQueryData(['user'], data.user)
     },
     onError: error => {
       console.error(error.message)

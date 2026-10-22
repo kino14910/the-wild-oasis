@@ -3,9 +3,7 @@ import styled from 'styled-components'
 
 import Heading from '../../ui/Heading'
 import Row from '../../ui/Row'
-import Spinner from '../../ui/Spinner'
 import TodayItem from './TodayItem'
-import useTodayActivity from './useTodayActivity'
 
 const StyledToday = styled.div`
   /* Box */
@@ -40,8 +38,18 @@ const NoActivity = styled.p`
   margin-top: 0.8rem;
 `
 
-function TodayActivity() {
-  const { activities, isLoading } = useTodayActivity()
+function TodayActivity({
+  activities,
+}: {
+  activities: {
+    id: number
+    status: string
+    numNights: number
+    guestName: string | null
+    guestCountryFlag: string | null
+    guestNationality: string | null
+  }[]
+}) {
   const { t } = useTranslation()
 
   return (
@@ -50,18 +58,14 @@ function TodayActivity() {
         <Heading as='h2'>{t('todayActivity.today')}</Heading>
       </Row>
 
-      {!isLoading ? (
-        activities?.length > 0 ? (
-          <TodayList>
-            {activities.map(activity => (
-              <TodayItem activity={activity} key={activity.id} />
-            ))}
-          </TodayList>
-        ) : (
-          <NoActivity>{t('todayActivity.noActivity')}</NoActivity>
-        )
+      {activities.length > 0 ? (
+        <TodayList>
+          {activities.map(activity => (
+            <TodayItem activity={activity} key={activity.id} />
+          ))}
+        </TodayList>
       ) : (
-        <Spinner />
+        <NoActivity>{t('todayActivity.noActivity')}</NoActivity>
       )}
     </StyledToday>
   )

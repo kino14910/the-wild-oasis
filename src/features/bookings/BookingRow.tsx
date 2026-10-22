@@ -18,6 +18,7 @@ import Menu from '../../ui/Menus'
 import Modal from '../../ui/Modal'
 import { formatCurrency, formatDistanceFromNow } from '../../utils/helpers'
 import { useCheckout } from '../check-in-out/useCheckout'
+import { useConfirmBooking } from './useConfirmBooking'
 import { useDeleteBooking } from './useDeleteBooking'
 
 const Cabin = styled.div`
@@ -65,13 +66,16 @@ function BookingRow({
   const navigate = useNavigate()
   const { checkout, isCheckingOut } = useCheckout()
   const { deleteBooking, isDeleting } = useDeleteBooking()
+  const { confirmBooking, isConfirming } = useConfirmBooking()
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-  const statusToTagName = {
-    unconfirmed: 'blue',
-    'checked-in': 'green',
-    'checked-out': 'silver',
+  const statusToTagName: Record<string, string> = {
+    pending: 'blue',
+    confirmed: 'gold',
+    checked_in: 'green',
+    checked_out: 'silver',
+    cancelled: 'red',
   }
 
   return (
@@ -96,7 +100,7 @@ function BookingRow({
         </span>
       </Stacked>
 
-      <Tag $type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
+      <Tag $type={statusToTagName[status]}>{status.replace('_', ' ')}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
 
@@ -109,7 +113,17 @@ function BookingRow({
             {t('bookingRow.seeDetails')}
           </Menu.Button>
 
-          {status === 'unconfirmed' && (
+          {status === 'pending' && (
+            <Menu.Button
+              icon={<HiArrowDownOnSquare />}
+              onClick={() => confirmBooking(bookingId)}
+              disabled={isConfirming}
+            >
+              {t('bookingRow.confirm')}
+            </Menu.Button>
+          )}
+
+          {status === 'confirmed' && (
             <Menu.Button
               icon={<HiArrowDownOnSquare />}
               onClick={() => navigate(`/checkin/${bookingId}`)}
@@ -118,7 +132,7 @@ function BookingRow({
             </Menu.Button>
           )}
 
-          {status === 'checked-in' && (
+          {status === 'checked_in' && (
             <Menu.Button
               icon={<HiArrowUpOnSquare />}
               onClick={() => checkout(bookingId)}

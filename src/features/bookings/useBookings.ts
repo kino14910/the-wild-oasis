@@ -1,22 +1,15 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router'
-import { getBookings } from '../../services/apiBookings'
+import { api, type BookingStatus } from '../../services/api'
 import { PAGE_SIZE } from '../../utils/constants'
 
 const useBookings = () => {
   const [searchParams] = useSearchParams()
   const queryClient = useQueryClient()
 
-  const filterValue = searchParams.get('status')
-  const filter =
-    !filterValue || filterValue === 'all'
-      ? null
-      : { field: 'status', value: filterValue }
-
+  const status = (searchParams.get('status') ?? 'all') as BookingStatus
   const sortByRaw = searchParams.get('sortBy') || 'startDate-desc'
   const [field, direction] = sortByRaw.split('-')
-  const sortBy = { field, direction }
-
   const page = !searchParams.get('page') ? 1 : Number(searchParams.get('page'))
 
   const {
@@ -24,21 +17,39 @@ const useBookings = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: ['bookings', filter, sortBy, page],
-    queryFn: () => getBookings({ filter, sortBy, page }),
+    queryKey: ['bookings', status, sortByRaw, page],
+    queryFn: () =>
+      api.getBookings({
+        status,
+        sortBy: field as 'startDate' | 'created_at' | 'totalPrice',
+        direction: direction as 'asc' | 'desc',
+        page,
+      }),
   })
 
-  if (page < Math.ceil(count / PAGE_SIZE)) {
+  if (count && page < Math.ceil(count / PAGE_SIZE)) {
     queryClient.prefetchQuery({
-      queryKey: ['bookings', filter, sortBy, page + 1],
-      queryFn: () => getBookings({ filter, sortBy, page: page + 1 }),
+      queryKey: ['bookings', status, sortByRaw, page + 1],
+      queryFn: () =>
+        api.getBookings({
+          status,
+          sortBy: field as 'startDate' | 'created_at' | 'totalPrice',
+          direction: direction as 'asc' | 'desc',
+          page: page + 1,
+        }),
     })
   }
 
   if (page > 1) {
     queryClient.prefetchQuery({
-      queryKey: ['bookings', filter, sortBy, page - 1],
-      queryFn: () => getBookings({ filter, sortBy, page: page - 1 }),
+      queryKey: ['bookings', status, sortByRaw, page - 1],
+      queryFn: () =>
+        api.getBookings({
+          status,
+          sortBy: field as 'startDate' | 'created_at' | 'totalPrice',
+          direction: direction as 'asc' | 'desc',
+          page: page - 1,
+        }),
     })
   }
 

@@ -22,10 +22,17 @@ function UpdateSettingsForm() {
 
   if (isLoading) return <Spinner />
 
-  function handleUpdate(e, key) {
-    const { value } = e.target
-    if (value === '') return
+  function handleUpdate(e: React.ChangeEvent<HTMLInputElement>, key: string) {
+    const raw = e.target.value
+    if (raw === '') return
+    const value = Number(raw)
+    if (Number.isNaN(value)) return
+
     updateSetting({
+      minBookingLength: Number(minBookingLength),
+      maxBookingLength: Number(maxBookingLength),
+      maxGuestsPerBooking: Number(maxGuestsPerBooking),
+      breakfastPrice: Number(breakfastPrice),
       [key]: value,
     })
   }

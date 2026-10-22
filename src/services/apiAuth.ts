@@ -1,13 +1,20 @@
-import { supabase, supabaseUrl } from '../integrations/supabase'
+import { supabase } from '../integrations/supabase'
 
-export async function signup({ fullName, email, password }) {
+export async function signup({
+  fullName,
+  email,
+  password,
+}: {
+  fullName: string
+  email: string
+  password: string
+}) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: {
         fullName,
-        avatar: '',
       },
     },
   })
@@ -18,7 +25,13 @@ export async function signup({ fullName, email, password }) {
   return data
 }
 
-export async function login({ email, password }) {
+export async function login({
+  email,
+  password,
+}: {
+  email: string
+  password: string
+}) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -30,13 +43,33 @@ export async function login({ email, password }) {
   return data
 }
 
+// The application profile carries the role used by the admin API. It is read
+// from the profiles table under RLS (self read), never from client storage.
 export async function getCurrentUser() {
-  const { data: session } = await supabase.auth.getSession()
-  if (!session.session) return null
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser()
+  if (error || !user) return null
 
-  const { data: data, error } = await supabase.auth.getUser()
-  if (error) throw new Error(error.message)
-  return data?.user
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('id, full_name, email, role')
+    .eq('id', user.id)
+    .single()
+
+  if (profileError || !profile) {
+    // A missing profile means the account was never provisioned; surface the
+    // reason instead of silently treating an administrator as a guest.
+    console.warn(
+      'profile lookup failed, falling back to guest role:',
+      profileError?.code ?? 'PGRST116',
+      profileError?.message ?? 'no profile row',
+    )
+    return { ...user, role: 'guest' as const }
+  }
+
+  return { ...user, role: profile.role as 'guest' | 'admin' }
 }
 
 export async function logout() {
@@ -44,39 +77,27 @@ export async function logout() {
   if (error) throw new Error(error.message)
 }
 
+// Auth-level profile data only (name and password). Cabin images and other
+// business resources are uploaded through the authenticated admin API.
 export async function updateCurrentUser({
   password,
   fullName,
-  avatar,
 }: {
   password?: string
   fullName?: string
-  avatar?: File
 }) {
-  let updateData
-  if (password) updateData = { password }
-  if (fullName) updateData = { data: { fullName } }
+  let updateData: { password?: string; data?: { full_name: string } }
+  if (password && fullName) {
+    updateData = { password, data: { full_name: fullName } }
+  } else if (password) {
+    updateData = { password }
+  } else if (fullName) {
+    updateData = { data: { full_name: fullName } }
+  } else {
+    return { user: null }
+  }
 
   const { data, error } = await supabase.auth.updateUser(updateData)
-
   if (error) throw new Error(error.message)
-
-  if (!avatar) return data
-  const fileName = `avatar-${data.user.id}-${Math.random()}`
-
-  const { error: storageError } = await supabase.storage
-    .from('avatars')
-    .upload(fileName, avatar)
-
-  if (storageError) throw new Error(storageError.message)
-
-  // 3. Update avatar in the user
-  const { data: updatedUser, error: error2 } = await supabase.auth.updateUser({
-    data: {
-      avatar: `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}`,
-    },
-  })
-
-  if (error2) throw new Error(error2.message)
-  return updatedUser
+  return data
 }

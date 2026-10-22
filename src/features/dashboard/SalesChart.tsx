@@ -1,4 +1,4 @@
-import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns'
+import { format, subDays } from 'date-fns'
 import {
   Area,
   AreaChart,
@@ -24,24 +24,26 @@ const StyledSalesChart = styled(DashboardBox)`
   }
 `
 
-function SalesChart({ bookings, numDays }) {
+function SalesChart({
+  dailySales,
+  numDays,
+}: {
+  dailySales: { date: string; total: number; extras: number }[]
+  numDays: number
+}) {
   const { t } = useTranslation()
   const { isDarkMode } = useDarkMode()
 
-  const allDates = eachDayOfInterval({
-    start: subDays(new Date(), numDays - 1),
-    end: new Date(),
-  })
-
-  const data = allDates.map(date => {
+  // The API aggregates per calendar day; days without sales are filled in
+  // here so the chart shows a continuous timeline.
+  const byDate = new Map(dailySales.map((day) => [day.date, day]))
+  const data = Array.from({ length: numDays }, (_, index) => {
+    const date = subDays(new Date(), numDays - 1 - index)
+    const day = byDate.get(format(date, 'yyyy-MM-dd'))
     return {
       label: format(date, 'MMM dd'),
-      totalSales: bookings
-        .filter(booking => isSameDay(date, new Date(booking.created_at)))
-        .reduce((acc, cur) => acc + cur.totalPrice, 0),
-      extrasSales: bookings
-        .filter(booking => isSameDay(date, new Date(booking.created_at)))
-        .reduce((acc, cur) => acc + cur.extrasPrice, 0),
+      totalSales: day?.total ?? 0,
+      extrasSales: day?.extras ?? 0,
     }
   })
 
@@ -62,8 +64,9 @@ function SalesChart({ bookings, numDays }) {
   return (
     <StyledSalesChart>
       <Heading as='h2'>
-        {t('dashboard.salesChart.salesFrom')} {format(allDates.at(0), 'MMM dd yyyy')} &mdash;{' '}
-        {format(allDates.at(-1), 'MMM dd yyyy')}{' '}
+        {t('dashboard.salesChart.salesFrom')}{' '}
+        {format(subDays(new Date(), numDays - 1), 'MMM dd yyyy')} &mdash;{' '}
+        {format(new Date(), 'MMM dd yyyy')}
       </Heading>
 
       <ResponsiveContainer height={300} width='100%'>

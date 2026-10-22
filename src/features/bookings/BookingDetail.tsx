@@ -13,6 +13,7 @@ import { useMoveBack } from '../../hooks/useMoveBack'
 import Empty from '../../ui/Empty'
 import Spinner from '../../ui/Spinner'
 import { useCheckout } from '../check-in-out/useCheckout'
+import { useConfirmBooking } from './useConfirmBooking'
 import BookingDataBox from './BookingDataBox'
 import useBooking from './useBooking'
 
@@ -22,9 +23,18 @@ const HeadingGroup = styled.div`
   align-items: center;
 `
 
+const statusToTagName: Record<string, string> = {
+  pending: 'blue',
+  confirmed: 'gold',
+  checked_in: 'green',
+  checked_out: 'silver',
+  cancelled: 'red',
+}
+
 function BookingDetail() {
   const { booking, isLoading } = useBooking()
   const { checkout, isCheckingOut } = useCheckout()
+  const { confirmBooking, isConfirming } = useConfirmBooking()
   const navigate = useNavigate()
   const moveBack = useMoveBack()
 
@@ -33,18 +43,12 @@ function BookingDetail() {
 
   const { status, id: bookingId } = booking
 
-  const statusToTagName = {
-    unconfirmed: 'blue',
-    'checked-in': 'green',
-    'checked-out': 'silver',
-  }
-
   return (
     <>
       <Row $type='horizontal'>
         <HeadingGroup>
           <Heading as='h1'>Booking #{bookingId}</Heading>
-          <Tag $type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
+          <Tag $type={statusToTagName[status]}>{status.replace('_', ' ')}</Tag>
         </HeadingGroup>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
@@ -52,7 +56,17 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
-        {status === 'unconfirmed' && (
+        {status === 'pending' && (
+          <Button
+            icon={<HiArrowDownOnSquare />}
+            onClick={() => confirmBooking(bookingId)}
+            disabled={isConfirming}
+          >
+            Confirm
+          </Button>
+        )}
+
+        {status === 'confirmed' && (
           <Button
             icon={<HiArrowDownOnSquare />}
             onClick={() => navigate(`/checkin/${bookingId}`)}
@@ -61,7 +75,7 @@ function BookingDetail() {
           </Button>
         )}
 
-        {status === 'checked-in' && (
+        {status === 'checked_in' && (
           <Button
             icon={<HiArrowUpOnSquare />}
             onClick={() => checkout(bookingId)}

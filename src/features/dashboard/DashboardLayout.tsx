@@ -1,40 +1,38 @@
-import styled from "styled-components";
-import { useRecentStays } from "./useRecentStays";
-import { useRecentBookings } from "./useRecentBookings";
-import Spinner from "../../ui/Spinner";
-import Stats from "./Stats";
-import { useCabins } from "../cabins/useCabins";
-import SalesChart from "./SalesChart";
-import DurationChart from "./DurationChart";
-import TodayActivity from "../check-in-out/TodayActivity";
+import styled from 'styled-components'
+import { useCabins } from '../cabins/useCabins'
+import Spinner from '../../ui/Spinner'
+import Stats from './Stats'
+import SalesChart from './SalesChart'
+import DurationChart from './DurationChart'
+import TodayActivity from '../check-in-out/TodayActivity'
+import { useDashboardData } from './useDashboardData'
 
 const StyledDashboardLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto 34rem auto;
   gap: 2.4rem;
-`;
+`
 
 function DashboardLayout() {
-  const { bookings, isLoading: isLoading1 } = useRecentBookings();
-  const { confirmedStays, isLoading: isLoading2, numDays } = useRecentStays();
-  const { cabins, isLoading: isLoading3 } = useCabins();
+  const { analytics, isLoading: isLoadingAnalytics, rangeDays } =
+    useDashboardData()
+  const { cabins, isLoading: isLoadingCabins } = useCabins()
 
-  if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
+  if (isLoadingAnalytics || isLoadingCabins || !analytics) return <Spinner />
 
   return (
     <StyledDashboardLayout>
       <Stats
-        bookings={bookings}
-        confirmedStays={confirmedStays}
-        numDays={numDays}
-        cabinCount={cabins.length}
+        sales={analytics.sales}
+        stays={analytics.stays}
+        occupancy={analytics.occupancy}
       />
-      <TodayActivity />
-      <DurationChart confirmedStays={confirmedStays} />
-      <SalesChart bookings={bookings} numDays={numDays} />
+      <TodayActivity activities={analytics.todayActivity} />
+      <DurationChart durationDistribution={analytics.durationDistribution} />
+      <SalesChart dailySales={analytics.dailySales} numDays={rangeDays} />
     </StyledDashboardLayout>
-  );
+  )
 }
 
-export default DashboardLayout;
+export default DashboardLayout
