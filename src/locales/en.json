@@ -1,212 +1,229 @@
 {
-    "settings": {
-        "updateHeading": "Update hotel settings"
+  "settings": {
+    "updateHeading": "Update hotel settings"
+  },
+  "users": {
+    "createHeading": "Create a new user",
+    "roleNote": "New accounts are created as guests. An existing admin promotes them to the admin role in the database (UPDATE profiles SET role = 'admin' WHERE email = ...) - roles are never assigned from the browser."
+  },
+  "account": {
+    "updateHeading": "Update your account",
+    "updateUserData": "Update user data",
+    "updatePassword": "Update password"
+  },
+  "bookings": {
+    "allHeading": "All bookings"
+  },
+  "cabins": {
+    "allHeading": "All cabins"
+  },
+  "dashboard": {
+    "heading": "Dashboard",
+    "filter": {
+      "last7Days": "Last 7 days",
+      "last30Days": "Last 30 days",
+      "last90Days": "Last 90 days"
     },
-    "users": {
-        "createHeading": "Create a new user"
+    "durationChart": {
+      "title": "Stay duration summary",
+      "duration": {
+        "1 night": "1 night",
+        "2 nights": "2 nights",
+        "3 nights": "3 nights",
+        "4-5 nights": "4-5 nights",
+        "6-7 nights": "6-7 nights",
+        "8-14 nights": "8-14 nights",
+        "15-21 nights": "15-21 nights",
+        "21+ nights": "21+ nights"
+      }
     },
-    "account": {
-        "updateHeading": "Update your account",
-        "updateUserData": "Update user data",
-        "updatePassword": "Update password"
+    "salesChart": {
+      "salesFrom": "Sales from",
+      "totalSales": "Total sales",
+      "extrasSales": "Extras sales"
     },
-    "bookings": {
-        "allHeading": "All bookings"
-    },
-    "cabins": {
-        "allHeading": "All cabins"
-    },
-    "dashboard": {
-        "heading": "Dashboard",
-        "filter": {
-            "last7Days": "Last 7 days",
-            "last30Days": "Last 30 days",
-            "last90Days": "Last 90 days"
-        },
-        "durationChart": {
-            "title": "Stay duration summary",
-            "duration": {
-                "1 night": "1 night",
-                "2 nights": "2 nights",
-                "3 nights": "3 nights",
-                "4-5 nights": "4-5 nights",
-                "6-7 nights": "6-7 nights",
-                "8-14 nights": "8-14 nights",
-                "15-21 nights": "15-21 nights",
-                "21+ nights": "21+ nights"
-            }
-        },
-        "salesChart": {
-            "salesFrom": "Sales from",
-            "totalSales": "Total sales",
-            "extrasSales": "Extras sales"
-        },
-        "stats": {
-            "bookings": "Bookings",
-            "sales": "Sales",
-            "checkIns": "Check ins",
-            "occupancyRate": "Occupancy rate"
-        }
-    },
-    "todayItem": {
-        "arriving": "Arriving",
-        "departing": "Departing",
-        "nights": "{{count}} nights",
-        "checkIn": "Check in",
-        "flagOf": "Flag of {{country}}"
-    },
-    "checkoutButton": {
-        "checkOut": "Check out"
-    },
-    "todayActivity": {
-        "today": "Today",
-        "noActivity": "No activity today..."
-    },
-    "loginForm": {
-        "emailAddress": "Email address",
-        "password": "Password",
-        "logIn": "Log in"
-    },
-    "updateUserDataForm": {
-        "emailAddress": "Email address",
-        "fullName": "Full name",
-        "avatarImage": "Avatar image",
-        "cancel": "Cancel",
-        "updateAccount": "Update account"
-    },
-    "updatePasswordForm": {
-        "passwordLabel": "Password (min 8 characters)",
-        "confirmPassword": "Confirm password",
-        "cancel": "Cancel",
-        "updatePassword": "Update password",
-        "required": "This field is required",
-        "minLength": "Password needs a minimum of 8 characters",
-        "passwordsMatch": "Passwords need to match"
-    },
-    "pageNotFound": {
-        "message": "The page you are looking for could not be found 😢",
-        "goBack": "Go back"
-    },
-    "nav": {
-        "home": "Home",
-        "bookings": "Bookings",
-        "cabins": "Cabins",
-        "user": "User",
-        "settings": "Settings"
-    },
-    "signupForm": {
-        "fullName": "Full name",
-        "email": "Email address",
-        "password": "Password (min 8 characters)",
-        "repeatPassword": "Repeat password",
-        "cancel": "Cancel",
-        "createUser": "Create new user",
-        "required": "This field is required",
-        "validEmail": "Please provide a valid email address",
-        "passwordMinLength": "Password needs a minimum of 8 characters",
-        "passwordMatch": "Passwords need to match"
-    },
-    "cabinTable": {
-        "cabin": "Cabin",
-        "capacity": "Capacity",
-        "price": "Price",
-        "discount": "Discount"
-    },
-    "cabinRow": {
-        "fitsGuests": "Fits up to {{count}} guests",
-        "duplicate": "Duplicate",
-        "edit": "Edit",
-        "delete": "Delete",
-        "resourceName": "cabins"
-    },
-    "bookingRow": {
-        "seeDetails": "See details",
-        "checkIn": "Check in",
-        "checkOut": "Check out",
-        "delete": "Delete",
-        "resourceName": "booking",
-        "today": "Today",
-        "nightStay": "{{count}} night stay",
-        "nightStay_plural": "{{count}} nights stay"
-    },
-    "createCabinForm": {
-        "cabinName": "Cabin name",
-        "maxCapacity": "Maximum capacity",
-        "regularPrice": "Regular price",
-        "discount": "Discount",
-        "description": "Description for website",
-        "cabinPhoto": "Cabin photo",
-        "cancel": "Cancel",
-        "editCabin": "Edit cabin",
-        "createCabin": "Create new cabin",
-        "required": "This field is required",
-        "minCapacity": "Capacity should be at least 1",
-        "minPrice": "Price should be at least 1",
-        "maxDiscount": "Discount should be less than regular price"
-    },
-    "cabinTableOperations": {
-        "all": "All",
-        "noDiscount": "No discount",
-        "withDiscount": "With discount",
-        "sortByNameAsc": "Sort by name (A-Z)",
-        "sortByNameDesc": "Sort by name (Z-A)",
-        "sortByPriceLow": "Sort by price (low first)",
-        "sortByPriceHigh": "Sort by price (high first)",
-        "sortByCapacityLow": "Sort by capacity (low first)",
-        "sortByCapacityHigh": "Sort by capacity (high first)"
-    },
-    "bookingTableOperations": {
-        "all": "All",
-        "checkedOut": "Checked out",
-        "checkedIn": "Checked in",
-        "unconfirmed": "Unconfirmed",
-        "sortByDateRecent": "Sort by date (recent first)",
-        "sortByDateEarlier": "Sort by date (earlier first)",
-        "sortByAmountHigh": "Sort by amount (high first)",
-        "sortByAmountLow": "Sort by amount (low first)"
-    },
-    "hooks": {
-        "checkout": {
-            "success": "Booking #{{id}} successfully checked out",
-            "error": "There was an error while checking out"
-        },
-        "checkin": {
-            "success": "Booking #{{id}} successfully checked in!",
-            "error": "There was an error while checking in"
-        },
-        "createCabin": {
-            "success": "Cabin created successfully"
-        },
-        "editCabin": {
-            "success": "Cabin successfully edited"
-        },
-        "deleteCabin": {
-            "success": "Cabin deleted successfully"
-        },
-        "deleteBooking": {
-            "success": "Booking successfully deleted"
-        },
-        "updateUser": {
-            "success": "User account successfully updated"
-        },
-        "signup": {
-            "success": "Account successfully created! Please verify the new account from the user's email address."
-        },
-        "updateSetting": {
-            "success": "Setting successfully edited"
-        }
-    },
-    "bookingTable": {
-        "cabin": "Cabin",
-        "guest": "Guest",
-        "dates": "Dates",
-        "status": "Status",
-        "amount": "Amount"
-    },
-    "updateSettingsForm": {
-        "minNights": "Minimum nights/booking",
-        "maxNights": "Maximum nights/booking",
-        "maxGuests": "Maximum guests/booking",
-        "breakfastPrice": "Breakfast price"
+    "stats": {
+      "bookings": "Bookings",
+      "sales": "Sales",
+      "checkIns": "Check ins",
+      "occupancyRate": "Occupancy rate"
     }
+  },
+  "todayItem": {
+    "arriving": "Arriving",
+    "departing": "Departing",
+    "nights": "{{count}} nights",
+    "checkIn": "Check in",
+    "flagOf": "Flag of {{country}}"
+  },
+  "checkoutButton": {
+    "checkOut": "Check out"
+  },
+  "todayActivity": {
+    "today": "Today",
+    "noActivity": "No activity today..."
+  },
+  "loginForm": {
+    "emailAddress": "Email address",
+    "password": "Password",
+    "logIn": "Log in"
+  },
+  "updateUserDataForm": {
+    "emailAddress": "Email address",
+    "fullName": "Full name",
+    "avatarImage": "Avatar image",
+    "cancel": "Cancel",
+    "updateAccount": "Update account"
+  },
+  "updatePasswordForm": {
+    "passwordLabel": "Password (min 8 characters)",
+    "confirmPassword": "Confirm password",
+    "cancel": "Cancel",
+    "updatePassword": "Update password",
+    "required": "This field is required",
+    "minLength": "Password needs a minimum of 8 characters",
+    "passwordsMatch": "Passwords need to match"
+  },
+  "pageNotFound": {
+    "message": "The page you are looking for could not be found 😢",
+    "goBack": "Go back"
+  },
+  "nav": {
+    "home": "Home",
+    "bookings": "Bookings",
+    "cabins": "Cabins",
+    "user": "User",
+    "settings": "Settings"
+  },
+  "signupForm": {
+    "fullName": "Full name",
+    "email": "Email address",
+    "password": "Password (min 8 characters)",
+    "repeatPassword": "Repeat password",
+    "cancel": "Cancel",
+    "createUser": "Create new user",
+    "required": "This field is required",
+    "validEmail": "Please provide a valid email address",
+    "passwordMinLength": "Password needs a minimum of 8 characters",
+    "passwordMatch": "Passwords need to match"
+  },
+  "cabinTable": {
+    "cabin": "Cabin",
+    "capacity": "Capacity",
+    "price": "Price",
+    "discount": "Discount"
+  },
+  "cabinRow": {
+    "fitsGuests": "Fits up to {{count}} guests",
+    "duplicate": "Duplicate",
+    "edit": "Edit",
+    "delete": "Delete",
+    "resourceName": "cabins"
+  },
+  "bookingRow": {
+    "seeDetails": "See details",
+    "checkIn": "Check in",
+    "checkOut": "Check out",
+    "confirm": "Confirm",
+    "delete": "Cancel",
+    "resourceName": "booking",
+    "today": "Today",
+    "nightStay": "{{count}} night stay",
+    "nightStay_plural": "{{count}} nights stay"
+  },
+  "createCabinForm": {
+    "cabinName": "Cabin name",
+    "maxCapacity": "Maximum capacity",
+    "regularPrice": "Regular price",
+    "discount": "Discount",
+    "description": "Description for website",
+    "cabinPhoto": "Cabin photo",
+    "cancel": "Cancel",
+    "editCabin": "Edit cabin",
+    "createCabin": "Create new cabin",
+    "required": "This field is required",
+    "minCapacity": "Capacity should be at least 1",
+    "minPrice": "Price should be at least 1",
+    "maxDiscount": "Discount should be less than regular price"
+  },
+  "cabinTableOperations": {
+    "all": "All",
+    "noDiscount": "No discount",
+    "withDiscount": "With discount",
+    "sortByNameAsc": "Sort by name (A-Z)",
+    "sortByNameDesc": "Sort by name (Z-A)",
+    "sortByPriceLow": "Sort by price (low first)",
+    "sortByPriceHigh": "Sort by price (high first)",
+    "sortByCapacityLow": "Sort by capacity (low first)",
+    "sortByCapacityHigh": "Sort by capacity (high first)"
+  },
+  "bookingTableOperations": {
+    "all": "All",
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "checkedOut": "Checked out",
+    "checkedIn": "Checked in",
+    "cancelled": "Cancelled",
+    "sortByDateRecent": "Sort by date (recent first)",
+    "sortByDateEarlier": "Sort by date (earlier first)",
+    "sortByAmountHigh": "Sort by amount (high first)",
+    "sortByAmountLow": "Sort by amount (low first)"
+  },
+  "hooks": {
+    "checkout": {
+      "success": "Booking #{{id}} successfully checked out",
+      "error": "There was an error while checking out"
+    },
+    "confirm": {
+      "success": "Booking #{{id}} successfully confirmed",
+      "error": "There was an error while confirming"
+    },
+    "checkin": {
+      "success": "Booking #{{id}} successfully checked in!",
+      "error": "There was an error while checking in"
+    },
+    "createCabin": {
+      "success": "Cabin created successfully"
+    },
+    "editCabin": {
+      "success": "Cabin successfully edited"
+    },
+    "deleteCabin": {
+      "success": "Cabin deleted successfully"
+    },
+    "deleteBooking": {
+      "success": "Booking successfully deleted"
+    },
+    "updateUser": {
+      "success": "User account successfully updated"
+    },
+    "signup": {
+      "success": "Account successfully created! Please verify the new account from the user's email address."
+    },
+    "updateSetting": {
+      "success": "Setting successfully edited"
+    }
+  },
+  "bookingTable": {
+    "cabin": "Cabin",
+    "guest": "Guest",
+    "dates": "Dates",
+    "status": "Status",
+    "amount": "Amount"
+  },
+  "updateSettingsForm": {
+    "minNights": "Minimum nights/booking",
+    "maxNights": "Maximum nights/booking",
+    "maxGuests": "Maximum guests/booking",
+    "breakfastPrice": "Breakfast price"
+  },
+  "protectedRoute": {
+    "loginRequiredTitle": "Sign in required",
+    "loginRequiredBody": "The admin dashboard is only available to staff. Sign in with an administrator account to continue.",
+    "forbiddenTitle": "No admin access",
+    "forbiddenBodyBefore": "You are signed in as",
+    "forbiddenBodyAfter": "which is not an administrator account. Sign out and sign in with an administrator account.",
+    "backToLogin": "Back to login",
+    "signOutAndBack": "Sign out and sign in"
+  }
 }

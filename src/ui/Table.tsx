@@ -10,7 +10,7 @@ const StyledTable = styled.div`
   overflow: hidden;
 `
 
-const CommonRow = styled.div`
+const CommonRow = styled.div<{ columns: string }>`
   display: grid;
   grid-template-columns: ${({ columns }) => columns};
   column-gap: 2.4rem;
@@ -59,8 +59,8 @@ const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `
-const TableContext = createContext()
-function Table({ $columns: columns, children }) {
+const TableContext = createContext<string>('')
+function Table({ $columns: columns, children }: { $columns: string; children: React.ReactNode }) {
   return (
     <TableContext.Provider value={columns}>
       <StyledTable role='table'>{children}</StyledTable>
